@@ -5,9 +5,9 @@ const ACTIVE_CLASS = 'film-card__controls-item--active';
 export const createFilmCardElement = (film = {}) => {
   const {
     comments = '',
-    film_info: {
+    filmInfo: {
       title = '',
-      total_rating: ratingFilm = 0,
+      totalRating: ratingFilm = 0,
       poster = '',
       description = '',
       release: {
@@ -16,9 +16,9 @@ export const createFilmCardElement = (film = {}) => {
       genre = [''],
       runtime = 20,
     },
-    user_details: {
+    userDetails: {
       watchlist = false,
-      already_watched: alreadyWatched = false,
+      alreadyWatched = false,
       favorite = false,
     },
   } = film;

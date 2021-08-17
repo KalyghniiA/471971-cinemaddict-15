@@ -1,4 +1,5 @@
-import { formateDate, generateDate, generateDateRelease, generateDateToComment, getRandomFloat, getRandomIntInclusive } from '../utils/utils';
+
+import { formateDate, generateDate, generateDateRelease, generateDateToComment, getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/utils';
 
 const FILMS = [
   'The Dance of Life',
@@ -59,7 +60,7 @@ const NAMES = [
   'James Stewart',
 ];
 
-const COUNTRY = [
+const COUNTRIES = [
   'Estonia',
   'Finland',
   'Ireland',
@@ -72,7 +73,7 @@ const COUNTRY = [
   'Egypt',
 ];
 
-const GENRE = [
+const GENRES = [
   'feature film',
   'short film',
   'action',
@@ -93,75 +94,96 @@ const AGE_RATING = [
 ];
 
 const MAX_COMMENT_QUANTITY = 50;
-const MIN_RATING = 0;
-const MAX_RATING = 10;
-const PRECISION_RATING = 1;
-const MIN_RUNTIME = 20;
-const MAX_RUNTIME = 200;
+
+const RATING = {
+  min: 0,
+  max: 10,
+  precision:1,
+};
+
+const RUNTIME = {
+  min: 20,
+  max: 200,
+};
+
+const ID = {
+  min: 0,
+  max: 100,
+}
 
 const createDescription = () => DESCRIPTION.slice(0, getRandomIntInclusive(1, DESCRIPTION.length - 1)).join(' ');
 
 export const createComment = () => ({
-  'id': getRandomIntInclusive(0, MAX_COMMENT_QUANTITY),
-  'author': NAMES[getRandomIntInclusive(0, NAMES.length - 1)],
-  'comment': DESCRIPTION[getRandomIntInclusive(0, DESCRIPTION.length - 1)],
-  'date': generateDateToComment(),
-  'emotion': COMMENT_EMOTION[getRandomIntInclusive(0, COMMENT_EMOTION.length - 1)],
+  id: getRandomIntInclusive(0, MAX_COMMENT_QUANTITY),
+  author: getRandomElementFromArray(NAMES),
+  comment: getRandomElementFromArray(DESCRIPTION),
+  date: generateDateToComment(),
+  emotion: getRandomElementFromArray(COMMENT_EMOTION),
 });
 
 
-export const createMokeData = (comments) => {
+export const createMockData = (comments) => {
   const commentsId = [];
   const wrinters = new Set;
   const actors = new Set;
   const genre = new Set;
 
-  Array.isArray(comments) ?
-    comments.forEach((comment) => {
-      commentsId.push(comment.id);
-    }) :
-    commentsId.push(comments.id);
+
+  comments.forEach((comment) => {
+    commentsId.push(comment.id);
+  });
 
 
   for (let i = 0; i < getRandomIntInclusive(1, NAMES.length - 1); i++) {
-    actors.add(NAMES[getRandomIntInclusive(0, NAMES.length - 1)]);
+    actors.add(getRandomElementFromArray(NAMES));
   }
 
   for (let i = 0; i < getRandomIntInclusive(1, NAMES.length - 1); i++) {
-    wrinters.add(NAMES[getRandomIntInclusive(0, NAMES.length - 1)]);
+    wrinters.add(getRandomElementFromArray(NAMES));
   }
 
-  for (let i = 0; i < getRandomIntInclusive(1, GENRE.length - 1); i++) {
-    genre.add(GENRE[getRandomIntInclusive(0, GENRE.length - 1)]);
+  for (let i = 0; i < getRandomIntInclusive(1, GENRES.length - 1); i++) {
+    genre.add(getRandomElementFromArray(GENRES));
   }
 
 
   return {
-    'id': '0',
-    'comments': commentsId,
-    'film_info': {
-      'title': FILMS[getRandomIntInclusive(0, FILMS.length - 1)],
-      'alternative_title': FILMS[getRandomIntInclusive(0, FILMS.length - 1)],
-      'total_rating': getRandomFloat(MIN_RATING, MAX_RATING, PRECISION_RATING),
-      'poster': POSTERS[getRandomIntInclusive(0, POSTERS.length - 1)],
-      'age_rating': AGE_RATING[getRandomIntInclusive(0, AGE_RATING.length - 1)],
-      'director': NAMES[getRandomIntInclusive(0, NAMES.length - 1)],
-      'wrinters': [...wrinters],
-      'actors': [...actors],
-      'release': {
-        'date': formateDate(generateDateRelease()),
-        'release_country': COUNTRY[getRandomIntInclusive(0, COUNTRY.length - 1)],
+    id: String(getRandomIntInclusive(ID.min, ID.max)),
+    comments: commentsId,
+    filmInfo: {
+      title: getRandomElementFromArray(FILMS),
+      alternativeTitle: getRandomElementFromArray(FILMS),
+      totalRating: getRandomFloat(RATING.min, RATING.max, RATING.precision),
+      poster: getRandomElementFromArray(POSTERS),
+      ageRating: getRandomElementFromArray(AGE_RATING),
+      director: getRandomElementFromArray(NAMES),
+      wrinters: [...wrinters],
+      actors: [...actors],
+      release: {
+        date: formateDate(generateDateRelease()),
+        releaseCountry: getRandomElementFromArray(COUNTRIES),
       },
-      'runtime': getRandomIntInclusive(MIN_RUNTIME, MAX_RUNTIME),
-      'genre': [...genre],
-      'description': createDescription(),
+      runtime: getRandomIntInclusive(RUNTIME.min, RUNTIME.max),
+      genre: [...genre],
+      description: createDescription(),
     },
-    'user_details': {
-      'watchlist': Boolean(getRandomIntInclusive()),
-      'already_watched': Boolean(getRandomIntInclusive()),
-      'watchng_date': formateDate(generateDate()),
-      'favorite': Boolean(getRandomIntInclusive()),
+    userDetails: {
+      watchlist: Boolean(getRandomIntInclusive()),
+      alreadyWatched: Boolean(getRandomIntInclusive()),
+      watchngDate: formateDate(generateDate()),
+      favorite: Boolean(getRandomIntInclusive()),
     },
 
   };
+};
+
+export const createComments = (container, quantity) => {
+  for (let i = 0; i < quantity; i++) {
+    container.push(createComment());
+  }
+};
+export const createMocksData = (container, quantity, comments) => {
+  for (let i = 0; i < quantity; i++) {
+    container.push(createMockData(comments));
+  }
 };

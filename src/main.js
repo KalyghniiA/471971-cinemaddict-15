@@ -1,4 +1,4 @@
-import { createComment, createMokeData } from './moke/moke';
+import { createComments, createMocksData} from './mock/mock';
 import { render } from './utils/utils';
 import { createButtonShowMore } from './view/button-show-more';
 import { createFilmCardElement } from './view/film-card';
@@ -10,25 +10,20 @@ import { createProfileElement } from './view/profile';
 import { createSortElement } from './view/sort';
 
 const MAX_COMMENT_QUANTITY = 5;
-const MAX_MOKE_QUANTITY = 20;
+const MAX_MOCK_QUANTITY = 20;
 const commentsData = [];
-const mokeData = [];
+const mockData = [];
 
-for (let i = 0; i < MAX_COMMENT_QUANTITY; i++) {
-  commentsData.push(createComment());
-}
+createComments(commentsData, MAX_COMMENT_QUANTITY);
+createMocksData(mockData, MAX_MOCK_QUANTITY, commentsData);
 
-for (let i = 0; i < MAX_MOKE_QUANTITY; i++) {
-  mokeData.push(createMokeData(commentsData));
-}
-
-const topRatedFilms = mokeData.slice().sort((prev, next) => next.film_info.total_rating - prev.film_info.total_rating);
-const mostCommentedFilms = mokeData.slice().sort((prev, next) => next.comments.length - prev.comments.length);
+const topRatedFilms = mockData.slice().sort((prev, next) => next.filmInfo.totalRating - prev.filmInfo.totalRating);
+const mostCommentedFilms = mockData.slice().sort((prev, next) => next.comments.length - prev.comments.length);
 
 const navigationInfo = {
-  'watchlist': mokeData.filter(({user_details: {watchlist}}) => watchlist).length,
-  'history': mokeData.filter(({user_details: {already_watched:watched}}) => watched).length,
-  'favorites': mokeData.filter(({user_details: {favorite}}) => favorite).length,
+  'watchlist': mockData.filter(({userDetails: {watchlist}}) => watchlist).length,
+  'history': mockData.filter(({userDetails: {alreadyWatched:watched}}) => watched).length,
+  'favorites': mockData.filter(({userDetails: {favorite}}) => favorite).length,
 };
 
 
@@ -39,10 +34,10 @@ const statisticsContainer = document.querySelector('.footer__statistics');
 render(headerContainer, createProfileElement(), 'beforeend');
 render(mainContainer, createNavigationElement(navigationInfo), 'beforeend');
 render(mainContainer, createSortElement(),'beforeend');
-render(mainContainer, createFilmsElement(mokeData, topRatedFilms, mostCommentedFilms),'beforeend');
-render(statisticsContainer, createStatisticsElement(), 'beforeend');
+render(mainContainer, createFilmsElement(mockData, topRatedFilms, mostCommentedFilms),'beforeend');
+render(statisticsContainer, createStatisticsElement(mockData), 'beforeend');
 
-if(mokeData.length > FILMS_QUANTITY_PER_STEP) {
+if(mockData.length > FILMS_QUANTITY_PER_STEP) {
   const filmsListContainer = document.querySelector('.films-list:first-child .films-list__container');
   const filmsMainContainer = document.querySelector('.films-list:first-child');
   let renderedFilmCount = FILMS_QUANTITY_PER_STEP;
@@ -55,11 +50,11 @@ if(mokeData.length > FILMS_QUANTITY_PER_STEP) {
     evt.preventDefault();
 
     for (let i = renderedFilmCount; i < renderedFilmCount + FILMS_QUANTITY_PER_STEP; i++) {
-      render(filmsListContainer, createFilmCardElement(mokeData[i]), 'beforeend');
+      render(filmsListContainer, createFilmCardElement(mockData[i]), 'beforeend');
     }
 
-    renderedFilmCount +=FILMS_QUANTITY_PER_STEP;
-    if (renderedFilmCount >= mokeData.length) {
+    renderedFilmCount += FILMS_QUANTITY_PER_STEP;
+    if (renderedFilmCount >= mockData.length) {
       buttonShowMore.remove();
     }
   });
