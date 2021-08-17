@@ -109,7 +109,7 @@ const RUNTIME = {
 const ID = {
   min: 0,
   max: 100,
-}
+};
 
 const createDescription = () => DESCRIPTION.slice(0, getRandomIntInclusive(1, DESCRIPTION.length - 1)).join(' ');
 
