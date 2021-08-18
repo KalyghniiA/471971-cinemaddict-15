@@ -11,11 +11,8 @@ import { createSortElement } from './view/sort';
 
 const MAX_COMMENT_QUANTITY = 5;
 const MAX_MOCK_QUANTITY = 20;
-const commentsData = [];
-const mockData = [];
-
-createComments(commentsData, MAX_COMMENT_QUANTITY);
-createMocksData(mockData, MAX_MOCK_QUANTITY, commentsData);
+const commentsData = createComments(MAX_COMMENT_QUANTITY);
+const mockData = createMocksData(MAX_MOCK_QUANTITY, commentsData);
 
 const topRatedFilms = mockData.slice().sort((prev, next) => next.filmInfo.totalRating - prev.filmInfo.totalRating);
 const mostCommentedFilms = mockData.slice().sort((prev, next) => next.comments.length - prev.comments.length);

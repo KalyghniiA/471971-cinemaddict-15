@@ -95,20 +95,20 @@ const AGE_RATING = [
 
 const MAX_COMMENT_QUANTITY = 50;
 
-const RATING = {
-  min: 0,
-  max: 10,
-  precision:1,
+const Rating = {
+  MIN: 0,
+  MAX: 10,
+  PRECISION:1,
 };
 
-const RUNTIME = {
-  min: 20,
-  max: 200,
+const Runtime = {
+  MIN: 20,
+  MAX: 200,
 };
 
-const ID = {
-  min: 0,
-  max: 100,
+const Id = {
+  MIN: 0,
+  MAX: 100,
 };
 
 const createDescription = () => DESCRIPTION.slice(0, getRandomIntInclusive(1, DESCRIPTION.length - 1)).join(' ');
@@ -123,16 +123,10 @@ export const createComment = () => ({
 
 
 export const createMockData = (comments) => {
-  const commentsId = [];
+  const commentsId = comments.map(({id}) => id);
   const wrinters = new Set;
   const actors = new Set;
   const genre = new Set;
-
-
-  comments.forEach((comment) => {
-    commentsId.push(comment.id);
-  });
-
 
   for (let i = 0; i < getRandomIntInclusive(1, NAMES.length - 1); i++) {
     actors.add(getRandomElementFromArray(NAMES));
@@ -148,12 +142,12 @@ export const createMockData = (comments) => {
 
 
   return {
-    id: String(getRandomIntInclusive(ID.min, ID.max)),
+    id: String(getRandomIntInclusive(Id.MIN, Id.MAX)),
     comments: commentsId,
     filmInfo: {
       title: getRandomElementFromArray(FILMS),
       alternativeTitle: getRandomElementFromArray(FILMS),
-      totalRating: getRandomFloat(RATING.min, RATING.max, RATING.precision),
+      totalRating: getRandomFloat(Rating.MIN, Rating.MAX, Rating.PRECISION),
       poster: getRandomElementFromArray(POSTERS),
       ageRating: getRandomElementFromArray(AGE_RATING),
       director: getRandomElementFromArray(NAMES),
@@ -163,7 +157,7 @@ export const createMockData = (comments) => {
         date: formateDate(generateDateRelease()),
         releaseCountry: getRandomElementFromArray(COUNTRIES),
       },
-      runtime: getRandomIntInclusive(RUNTIME.min, RUNTIME.max),
+      runtime: getRandomIntInclusive(Runtime.MIN, Runtime.MAX),
       genre: [...genre],
       description: createDescription(),
     },
@@ -177,13 +171,19 @@ export const createMockData = (comments) => {
   };
 };
 
-export const createComments = (container, quantity) => {
+export const createComments = (quantity) => {
+  const comments = [];
   for (let i = 0; i < quantity; i++) {
-    container.push(createComment());
+    comments.push(createComment());
   }
+  return comments;
 };
-export const createMocksData = (container, quantity, comments) => {
+
+export const createMocksData = (quantity, comments) => {
+  const mocks =[];
+
   for (let i = 0; i < quantity; i++) {
-    container.push(createMockData(comments));
+    mocks.push(createMockData(comments));
   }
+  return mocks;
 };
