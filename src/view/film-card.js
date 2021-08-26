@@ -1,28 +1,49 @@
-import { formateDate, getTimeFromMins } from '../utils/utils';
+import { createElement, formateDate, getTimeFromMins } from '../utils/utils';
 
 const ACTIVE_CLASS = 'film-card__controls-item--active';
 
-export const createFilmCardElement = (film = {}) => {
-  const {
-    comments = '',
-    filmInfo: {
-      title = '',
-      totalRating: ratingFilm = 0,
-      poster = '',
-      description = '',
-      release: {
-        date = '',
-      },
-      genre = [''],
-      runtime = 20,
+const BLANK_FILM = {
+  comments : '',
+  filmInfo: {
+    title: '',
+    totalRating: {
+      ratingFilm: 0,
     },
+    poster: '',
+    description: '',
+    release: {
+      date: '',
+    },
+    genre: [''],
+    runtime: 20,
+  },
+  userDetails: {
+    watchlist: false,
+    alreadyWatched: false,
+    favorite: false,
+  },
+};
+
+const createFilmCardElement = (film) => {
+  const {
+    filmInfo: {
+      title,
+      totalRating: ratingFilm,
+      release: {
+        date,
+      },
+      runtime,
+      genre,
+      poster,
+      description,
+    },
+    comments,
     userDetails: {
-      watchlist = false,
-      alreadyWatched = false,
-      favorite = false,
+      watchlist,
+      alreadyWatched,
+      favorite,
     },
   } = film;
-
 
   return (
     `<article class="film-card">
@@ -43,3 +64,27 @@ export const createFilmCardElement = (film = {}) => {
     </div>
   </article>`
   );};
+
+
+export default class FilmCard {
+  constructor (film = BLANK_FILM) {
+    this._element = null,
+    this._film = film;
+  }
+
+  getTemplate () {
+    return createFilmCardElement(this._film);
+  }
+
+  getElement () {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement () {
+    this._element = null;
+  }
+}
