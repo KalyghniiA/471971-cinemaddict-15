@@ -59,9 +59,9 @@ export const generateDate = () => {
   return dayjs().add(daysGap, 'd').toDate();
 };
 
-export const formateDate = (date, format = '') => dayjs(date).format(format);
+export const formatDate = (date, format = '') => dayjs(date).format(format);
 
-export const getTimeFromMins = (mins) => {
+export const getTimeFromMinutes = (mins) => {
   const hours = Math.trunc(mins/60);
   const minutes = mins % 60;
 

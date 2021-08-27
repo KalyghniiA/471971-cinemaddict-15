@@ -1,4 +1,4 @@
-import { createElement, formateDate, getTimeFromMins } from '../utils/utils';
+import { createElement, formatDate, getTimeFromMinutes } from '../utils/utils';
 
 const createPopupFilm = (film, commentsFilm) => {
 
@@ -10,7 +10,7 @@ const createPopupFilm = (film, commentsFilm) => {
       alternativeTitle,
       totalRating,
       director,
-      wrinters,
+      writers,
       actors,
       runtime,
       genre,
@@ -58,7 +58,7 @@ const createPopupFilm = (film, commentsFilm) => {
               <p class="film-details__comment-text">${comment}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${author}</span>
-                <span class="film-details__comment-day">${formateDate(dateComments, 'D')} days ago</span>
+                <span class="film-details__comment-day">${formatDate(dateComments, 'D')} days ago</span>
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
@@ -101,7 +101,7 @@ const createPopupFilm = (film, commentsFilm) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Writers</td>
-              <td class="film-details__cell">${wrinters.join(', ')}</td>
+              <td class="film-details__cell">${writers.join(', ')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Actors</td>
@@ -109,11 +109,11 @@ const createPopupFilm = (film, commentsFilm) => {
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${formateDate(date, 'DD MMMM YYYY')}</td>
+              <td class="film-details__cell">${formatDate(date, 'DD MMMM YYYY')}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${getTimeFromMins(runtime)}</td>
+              <td class="film-details__cell">${getTimeFromMinutes(runtime)}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>

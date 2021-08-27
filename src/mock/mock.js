@@ -1,5 +1,5 @@
 
-import { formateDate, generateDate, generateDateRelease, generateDateToComment, getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/utils';
+import { formatDate, generateDate, generateDateRelease, generateDateToComment, getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/utils';
 
 const FILMS = [
   'The Dance of Life',
@@ -124,7 +124,7 @@ export const createComment = () => ({
 
 export const createMockData = (comments) => {
   const commentsId = comments.map(({id}) => id);
-  const wrinters = new Set;
+  const writers = new Set;
   const actors = new Set;
   const genre = new Set;
 
@@ -133,7 +133,7 @@ export const createMockData = (comments) => {
   }
 
   for (let i = 0; i < getRandomIntInclusive(1, NAMES.length - 1); i++) {
-    wrinters.add(getRandomElementFromArray(NAMES));
+    writers.add(getRandomElementFromArray(NAMES));
   }
 
   for (let i = 0; i < getRandomIntInclusive(1, GENRES.length - 1); i++) {
@@ -151,10 +151,10 @@ export const createMockData = (comments) => {
       poster: getRandomElementFromArray(POSTERS),
       ageRating: getRandomElementFromArray(AGE_RATING),
       director: getRandomElementFromArray(NAMES),
-      wrinters: [...wrinters],
+      writers: [...writers],
       actors: [...actors],
       release: {
-        date: formateDate(generateDateRelease()),
+        date: formatDate(generateDateRelease()),
         releaseCountry: getRandomElementFromArray(COUNTRIES),
       },
       runtime: getRandomIntInclusive(Runtime.MIN, Runtime.MAX),
@@ -164,7 +164,7 @@ export const createMockData = (comments) => {
     userDetails: {
       watchlist: Boolean(getRandomIntInclusive()),
       alreadyWatched: Boolean(getRandomIntInclusive()),
-      watchngDate: formateDate(generateDate()),
+      watchingDate: formatDate(generateDate()),
       favorite: Boolean(getRandomIntInclusive()),
     },
 

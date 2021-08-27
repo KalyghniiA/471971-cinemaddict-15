@@ -1,19 +1,13 @@
 import { createElement } from '../utils/utils';
 
-
-const createFilmsElement = () => (
-  `<section class="films">
-        
-      </section>`
-);
-
 export default class Films {
   constructor () {
     this._element = null;
   }
 
   getTemplate () {
-    return createFilmsElement();
+    return `<section class="films">
+    </section>`;
   }
 
   getElement () {

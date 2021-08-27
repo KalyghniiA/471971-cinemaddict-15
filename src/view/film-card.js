@@ -1,4 +1,4 @@
-import { createElement, formateDate, getTimeFromMins } from '../utils/utils';
+import { createElement, formatDate, getTimeFromMinutes } from '../utils/utils';
 
 const ACTIVE_CLASS = 'film-card__controls-item--active';
 
@@ -50,8 +50,8 @@ const createFilmCardElement = (film) => {
     <h3 class="film-card__title">${title}</h3>
     <p class="film-card__rating">${ratingFilm}</p>
     <p class="film-card__info">
-      <span class="film-card__year">${formateDate(date, 'YYYY')}</span>
-      <span class="film-card__duration">${getTimeFromMins(runtime)}</span>
+      <span class="film-card__year">${formatDate(date, 'YYYY')}</span>
+      <span class="film-card__duration">${getTimeFromMinutes(runtime)}</span>
       <span class="film-card__genre">${genre.join(', ')}</span>
     </p>
     <img src="./images/posters/${poster}" alt="" class="film-card__poster">
@@ -68,7 +68,7 @@ const createFilmCardElement = (film) => {
 
 export default class FilmCard {
   constructor (film = BLANK_FILM) {
-    this._element = null,
+    this._element = null;
     this._film = film;
   }
 

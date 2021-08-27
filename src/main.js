@@ -13,13 +13,18 @@ import ButtonShowMoreView from './view/button-show-more';
 import PopupView from './view/popup';
 import NoFilmView from './view/no-film';
 
-const MAX_COMMENT_QUANTITY = 5;
-const MAX_MOCK_QUANTITY = 20;
 const FILMS_QUANTITY_PER_STEP = 5;
-const MAX_FILMS_QUANTITY_TOP_RATED = 2;
-const MAX_FILMS_QUANTITY_MOST_COMMENT = 2;
-const commentsData = createComments(MAX_COMMENT_QUANTITY);
-const mockData = createMocksData(MAX_MOCK_QUANTITY, commentsData);
+
+
+const MaxQuantityElement = {
+  MAX_COMMENT_QUANTITY: 5,
+  MAX_MOCK_QUANTITY: 20,
+  MAX_FILMS_QUANTITY_TOP_RATED: 2,
+  MAX_FILMS_QUANTITY_MOST_COMMENT: 2,
+};
+
+const commentsData = createComments(MaxQuantityElement.MAX_COMMENT_QUANTITY);
+const mockData = createMocksData(MaxQuantityElement.MAX_MOCK_QUANTITY, commentsData);
 
 
 const topRatedFilms = mockData.slice().sort((prev, next) => next.filmInfo.totalRating - prev.filmInfo.totalRating);
@@ -44,7 +49,7 @@ render(mainContainer, new FilmsView().getElement(), RenderPosition.BEFOREEND);
 const filmsContainer = document.querySelector('.films');
 
 
-if (mockData.every((film) => film.isArchive)) {
+if (mockData.length === 0) {
   render(filmsContainer, new NoFilmView().getElement(), RenderPosition.BEFOREEND);
 } else {
   render(filmsContainer, new FilmListView().getElement(), RenderPosition.BEFOREEND);
@@ -77,20 +82,13 @@ if (mockData.every((film) => film.isArchive)) {
       }
     };
 
-    filmComponent.getElement().querySelector('.film-card__poster').addEventListener('click', () => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeyDown);
+    filmComponent.getElement().querySelectorAll('.film-card__poster, .film-card__title, .film-card__comments').forEach((element) => {
+      element.addEventListener('click', () => {
+        openPopup();
+        document.addEventListener('keydown', onEscKeyDown);
+      });
     });
 
-    filmComponent.getElement().querySelector('.film-card__title').addEventListener('click', () => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
-
-    filmComponent.getElement().querySelector('.film-card__comments').addEventListener('click', () => {
-      openPopup();
-      document.addEventListener('keydown', onEscKeyDown);
-    });
 
     popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', () => {
       removePopup();
@@ -104,11 +102,11 @@ if (mockData.every((film) => film.isArchive)) {
   }
 
 
-  for (let i = 0; i < MAX_FILMS_QUANTITY_TOP_RATED; i++) {
+  for (let i = 0; i < MaxQuantityElement.MAX_FILMS_QUANTITY_TOP_RATED; i++) {
     renderFilms(topRatedListContainer, topRatedFilms[i], commentsData);
   }
 
-  for (let i = 0; i < MAX_FILMS_QUANTITY_MOST_COMMENT; i++) {
+  for (let i = 0; i < MaxQuantityElement.MAX_FILMS_QUANTITY_MOST_COMMENT; i++) {
     renderFilms(mostCommentedListContainer, mostCommentedFilms[i], commentsData);
   }
 
