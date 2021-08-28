@@ -17,14 +17,14 @@ const FILMS_QUANTITY_PER_STEP = 5;
 
 
 const MaxQuantityElement = {
-  MAX_COMMENT_QUANTITY: 5,
-  MAX_MOCK_QUANTITY: 20,
-  MAX_FILMS_QUANTITY_TOP_RATED: 2,
-  MAX_FILMS_QUANTITY_MOST_COMMENT: 2,
+  COMMENT: 5,
+  MOCK: 20,
+  FILMS_TOP_RATED: 2,
+  FILMS_MOST_COMMENT: 2,
 };
 
-const commentsData = createComments(MaxQuantityElement.MAX_COMMENT_QUANTITY);
-const mockData = createMocksData(MaxQuantityElement.MAX_MOCK_QUANTITY, commentsData);
+const commentsData = createComments(MaxQuantityElement.COMMENT);
+const mockData = createMocksData(MaxQuantityElement.MOCK, commentsData);
 
 
 const topRatedFilms = mockData.slice().sort((prev, next) => next.filmInfo.totalRating - prev.filmInfo.totalRating);
@@ -102,11 +102,11 @@ if (mockData.length === 0) {
   }
 
 
-  for (let i = 0; i < MaxQuantityElement.MAX_FILMS_QUANTITY_TOP_RATED; i++) {
+  for (let i = 0; i < MaxQuantityElement.FILMS_TOP_RATED; i++) {
     renderFilms(topRatedListContainer, topRatedFilms[i], commentsData);
   }
 
-  for (let i = 0; i < MaxQuantityElement.MAX_FILMS_QUANTITY_MOST_COMMENT; i++) {
+  for (let i = 0; i < MaxQuantityElement.FILMS_MOST_COMMENT; i++) {
     renderFilms(mostCommentedListContainer, mostCommentedFilms[i], commentsData);
   }
 
