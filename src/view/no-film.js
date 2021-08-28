@@ -1,16 +1,14 @@
 import { createElement } from '../utils/utils';
 
-export default class Sort {
+export default class NoFilm {
   constructor () {
     this._element = null;
   }
 
   getTemplate () {
-    return `<ul class="sort">
-    <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-    <li><a href="#" class="sort__button">Sort by date</a></li>
-    <li><a href="#" class="sort__button">Sort by rating</a></li>
-  </ul>`;
+    return `<section class="films-list">
+    <h2 class="films-list__title">Loading...</h2>
+    </section>`;
   }
 
   getElement () {

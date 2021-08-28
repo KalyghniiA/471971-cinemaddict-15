@@ -1,10 +1,28 @@
-import { createFilmCardElement } from './film-card';
+import { createElement } from '../utils/utils';
 
-export const createMostCommentsListFilms = (films) => (`<section class="films-list films-list--extra">
-<h2 class="films-list__title">Most commented</h2>
+export default class MostCommentedList {
+  constructor () {
+    this._element = null;
+  }
 
-<div class="films-list__container">
-  ${createFilmCardElement(films[0])}
-  ${createFilmCardElement(films[1])}
-</div>
-</section>`);
+  getTemplate () {
+    return `<section class="films-list films-list--extra films-list--most-commented">
+    <h2 class="films-list__title">Most commented</h2>
+    
+    <div class="films-list__container">
+    </div>
+    </section>`;
+  }
+
+  getElement () {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement () {
+    this._element = null;
+  }
+}

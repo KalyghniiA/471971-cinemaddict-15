@@ -1,11 +1,24 @@
-import { createFilmListElement } from './film-list';
-import { createMostCommentsListFilms } from './most_comment_film_list';
-import { createTopRatedFilmList } from './top-rated-film-list';
+import { createElement } from '../utils/utils';
 
-export const createFilmsElement = (films, topRatedFilms, mostCommentedFilms) => (
-  `<section class="films">
-        ${createFilmListElement(films)}
-        ${createTopRatedFilmList(topRatedFilms)}
-        ${createMostCommentsListFilms(mostCommentedFilms)}
-      </section>`
-);
+export default class Films {
+  constructor () {
+    this._element = null;
+  }
+
+  getTemplate () {
+    return `<section class="films">
+    </section>`;
+  }
+
+  getElement () {
+    if(!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement () {
+    this._element = null;
+  }
+}
