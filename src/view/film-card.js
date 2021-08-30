@@ -1,4 +1,5 @@
-import { createElement, formatDate, getTimeFromMinutes } from '../utils/utils';
+import {formatDate, getTimeFromMinutes } from '../utils/date';
+import AbstractView from './abstract';
 
 const ACTIVE_CLASS = 'film-card__controls-item--active';
 
@@ -66,25 +67,28 @@ const createFilmCardElement = (film) => {
   );};
 
 
-export default class FilmCard {
+export default class FilmCard extends AbstractView {
   constructor (film = BLANK_FILM) {
-    this._element = null;
+    super();
     this._film = film;
+    this._openClickHandler = this._openClickHandler.bind(this);
   }
 
   getTemplate () {
     return createFilmCardElement(this._film);
   }
 
-  getElement () {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _openClickHandler () {
+    this._callback.openClick();
   }
 
-  removeElement () {
-    this._element = null;
+  setOpenClickHandler (callback) {
+    this._callback.openClick = callback;
+    this
+      .getElement()
+      .querySelectorAll('.film-card__poster, .film-card__title, .film-card__comments')
+      .forEach((element) => {
+        element.addEventListener('click', this._openClickHandler);
+      });
   }
 }

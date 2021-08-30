@@ -1,29 +1,17 @@
-import { createElement } from '../utils/utils';
+import AbstractView from './abstract';
 
 const createStatisticsElement = (movies) => (
   `<p>${movies.length} movies inside</p>`
 );
 
 
-export default class Statistic {
+export default class Statistic extends AbstractView {
   constructor (movies) {
-    this._element = null;
+    super();
     this._movies = movies;
   }
 
   getTemplate () {
     return createStatisticsElement(this._movies);
-  }
-
-  getElement () {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement () {
-    this._element = null;
   }
 }

@@ -1,4 +1,5 @@
-import { createElement, formatDate, getTimeFromMinutes } from '../utils/utils';
+import {formatDate, getTimeFromMinutes } from '../utils/date';
+import AbstractView from './abstract';
 
 const createPopupFilm = (film, commentsFilm) => {
 
@@ -183,26 +184,24 @@ const createPopupFilm = (film, commentsFilm) => {
   );
 };
 
-export default class Popup {
+export default class Popup extends AbstractView {
   constructor (film, comments) {
-    this._element = null;
+    super();
     this._film = film;
     this._comments = comments;
+    this._closeClickHandler = this._closeClickHandler.bind(this);
   }
 
   getTemplate () {
     return createPopupFilm(this._film, this._comments);
   }
 
-  getElement () {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _closeClickHandler () {
+    this._callback.closeClick();
   }
 
-  removeElement () {
-    this._element = null;
+  setCloseClickHandler (callback) {
+    this._callback.closeClick = callback;
+    this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
   }
 }
