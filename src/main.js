@@ -1,5 +1,4 @@
 import { createComments, createMocksData} from './mock/mock';
-import { render, RenderPosition } from './utils/utils';
 import ProfileView from './view/profile';
 import NavigationView from './view/navigation';
 import SortView from './view/sort';
@@ -12,6 +11,7 @@ import StatisticView from './view/footer-statistics';
 import ButtonShowMoreView from './view/button-show-more';
 import PopupView from './view/popup';
 import NoFilmView from './view/no-film';
+import { remove, render, RenderPosition } from './utils/render';
 
 const FILMS_QUANTITY_PER_STEP = 5;
 
@@ -41,20 +41,20 @@ const headerContainer = document.querySelector('.header');
 const mainContainer = document.querySelector('.main');
 const statisticsContainer = document.querySelector('.footer__statistics');
 
-render(headerContainer, new ProfileView().getElement(), RenderPosition.BEFOREEND);
-render(mainContainer, new NavigationView(navigationInfo).getElement(), RenderPosition.BEFOREEND);
-render(mainContainer, new SortView().getElement(), RenderPosition.BEFOREEND);
-render(mainContainer, new FilmsView().getElement(), RenderPosition.BEFOREEND);
+render(headerContainer, new ProfileView(), RenderPosition.BEFOREEND);
+render(mainContainer, new NavigationView(navigationInfo), RenderPosition.BEFOREEND);
+render(mainContainer, new SortView(), RenderPosition.BEFOREEND);
+render(mainContainer, new FilmsView(), RenderPosition.BEFOREEND);
 
 const filmsContainer = document.querySelector('.films');
 
 
 if (mockData.length === 0) {
-  render(filmsContainer, new NoFilmView().getElement(), RenderPosition.BEFOREEND);
+  render(filmsContainer, new NoFilmView(), RenderPosition.BEFOREEND);
 } else {
-  render(filmsContainer, new FilmListView().getElement(), RenderPosition.BEFOREEND);
-  render(filmsContainer, new TopRatedListView().getElement(), RenderPosition.BEFOREEND);
-  render(filmsContainer, new MostCommentedListView().getElement(), RenderPosition.BEFOREEND);
+  render(filmsContainer, new FilmListView(), RenderPosition.BEFOREEND);
+  render(filmsContainer, new TopRatedListView(), RenderPosition.BEFOREEND);
+  render(filmsContainer, new MostCommentedListView(), RenderPosition.BEFOREEND);
 
   const filmListContainer =  filmsContainer.querySelector('.films-list:first-child .films-list__container');
   const topRatedListContainer = filmsContainer.querySelector('.films-list--top-rated .films-list__container');
@@ -65,12 +65,12 @@ if (mockData.length === 0) {
     const popupComponent = new PopupView(film, comments);
 
     const openPopup = () => {
-      render(document.body, popupComponent.getElement(), RenderPosition.BEFOREEND);
+      render(document.body, popupComponent, RenderPosition.BEFOREEND);
       document.body.classList.add('hide-overflow');
     };
 
     const removePopup = () => {
-      popupComponent.getElement().remove();
+      remove(popupComponent);
       document.body.classList.remove('hide-overflow');
     };
 
@@ -82,19 +82,17 @@ if (mockData.length === 0) {
       }
     };
 
-    filmComponent.getElement().querySelectorAll('.film-card__poster, .film-card__title, .film-card__comments').forEach((element) => {
-      element.addEventListener('click', () => {
-        openPopup();
-        document.addEventListener('keydown', onEscKeyDown);
-      });
+    filmComponent.setOpenClickHandler(() => {
+      openPopup();
+      document.addEventListener('keydown', onEscKeyDown);
     });
 
 
-    popupComponent.getElement().querySelector('.film-details__close-btn').addEventListener('click', () => {
+    popupComponent.setCloseClickHandler(() => {
       removePopup();
     });
 
-    render(filmListElement, filmComponent.getElement(), RenderPosition.BEFOREEND);
+    render(filmListElement, filmComponent, RenderPosition.BEFOREEND);
   };
 
   for ( let i = 0; i < FILMS_QUANTITY_PER_STEP; i++) {
@@ -113,13 +111,10 @@ if (mockData.length === 0) {
   if (mockData.length > FILMS_QUANTITY_PER_STEP) {
     const filmsMainContainer = document.querySelector('.films-list:first-child');
     let renderedFilmCount = FILMS_QUANTITY_PER_STEP;
+    const buttonShowMore = new ButtonShowMoreView();
+    render(filmsMainContainer, buttonShowMore, RenderPosition.BEFOREEND);
 
-    render(filmsMainContainer, new ButtonShowMoreView().getElement(), RenderPosition.BEFOREEND);
-
-    const buttonShowMore = document.querySelector('.films-list__show-more');
-
-    buttonShowMore.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    buttonShowMore.setClickHandler(() => {
 
       for (let i = renderedFilmCount; i < renderedFilmCount + FILMS_QUANTITY_PER_STEP; i++) {
         renderFilms(filmListContainer,mockData[i], commentsData);
@@ -127,11 +122,11 @@ if (mockData.length === 0) {
 
       renderedFilmCount += FILMS_QUANTITY_PER_STEP;
       if (renderedFilmCount >= mockData.length) {
-        buttonShowMore.remove();
+        remove(buttonShowMore);
       }
     });
   }
 
 }
 
-render(statisticsContainer, new StatisticView(mockData).getElement(), RenderPosition.BEFOREEND);
+render(statisticsContainer, new StatisticView(mockData), RenderPosition.BEFOREEND);

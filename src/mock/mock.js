@@ -1,5 +1,6 @@
 
-import { formatDate, generateDate, generateDateRelease, generateDateToComment, getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/utils';
+import { getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/common';
+import { formatDate, generateDate, generateDateRelease, generateDateToComment} from '../utils/date';
 
 const FILMS = [
   'The Dance of Life',
