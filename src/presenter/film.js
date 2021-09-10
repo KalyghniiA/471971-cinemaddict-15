@@ -34,11 +34,11 @@ export default class Film {
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
       render(this._container, this._filmComponent, RenderPosition.BEFOREEND);
-      return;
+      /* return; */
     }
 
-    remove(prevFilmComponent);
-    remove(prevPopupComponent);
+    /* remove(prevFilmComponent);
+    remove(prevPopupComponent); */
   }
 
   destroy() {
@@ -80,9 +80,13 @@ export default class Film {
         {},
         this._film,
         {
-          userDetails: {
-            watchlist: !this._film.userDetails.watchlist,
-          },
+          userDetails: Object.assign(
+            {},
+            this._film.userDetails,
+            {
+              watchlist: !this._film.userDetails.watchlist,
+            },
+          )
         },
       ),
     );
