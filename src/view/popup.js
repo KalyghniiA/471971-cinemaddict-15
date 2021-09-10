@@ -190,6 +190,7 @@ export default class Popup extends AbstractView {
     this._film = film;
     this._comments = comments;
     this._closeClickHandler = this._closeClickHandler.bind(this);
+    this._controlAddToWatchlistClick = this._controlAddToWatchlistClick.bind(this);
   }
 
   getTemplate () {
@@ -200,8 +201,21 @@ export default class Popup extends AbstractView {
     this._callback.closeClick();
   }
 
+  _controlAddToWatchlistClick (evt) {
+    evt.preventDefault();
+    this._callback.controlAddToWatchListClick();
+  }
+
   setCloseClickHandler (callback) {
     this._callback.closeClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
+  }
+
+  setControlAddToWatchListHandler (callback) {
+    this._callback.controlAddToWatchListClick = callback;
+    this
+      .getElement()
+      .querySelector('.film-details__control-button--watchlist')
+      .addEventListener('click', this._controlAddToWatchlistClick);
   }
 }

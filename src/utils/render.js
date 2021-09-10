@@ -23,11 +23,12 @@ export const render = (container, child, place) => {
 };
 
 export const remove = (element) => {
-  if (element instanceof Abstract) {
-    element = element.getElement();
+  if (!(element instanceof Abstract)) {
+    throw new Error('Can remove only components');
   }
 
-  element.remove();
+  element.getElement().remove();
+  element.removeElement();
 };
 
 export const createElement = (template) => {
