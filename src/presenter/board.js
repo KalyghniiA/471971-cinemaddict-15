@@ -17,14 +17,11 @@ const FILMS_QUANTITY_PER_STEP = 5;
 export default class Board {
   constructor (moviesContainer) {
     this._mainContainer = moviesContainer;
-    this._filmComponent = null;
-    this._popupComponent = null;
-    this._navigationComponent = new Navigation();
     this._sortComponent = new Sort();
     this._noFilmComponent = new NoFilm();
     this._filmListComponent = new FilmList();
     this._topRatedListComponent = new TopRatedList();
-    this._mostCommentedList = new MostCommentedList();
+    this._mostCommentedListComponent = new MostCommentedList();
     this._filmsComponent = new Films();
     this._buttonShowMoreComponent = new ButtonShowMore();
 
@@ -48,11 +45,18 @@ export default class Board {
 
   _renderSort () {
     render(this._mainContainer, this._sortComponent, RenderPosition.BEFOREEND);
+    this._sortComponent.setSortTypeChangeHandler(this._handlerSortTypeChange);
+  }
+
+  _handlerSortTypeChange (sortType) {
+
   }
 
   _handlerFilmChange (updateFilm) {
     this._boardFilms = updateItem(this._boardFilms, updateFilm);
     this._mainFilmsPresenter.get(updateFilm.id).init(updateFilm, this._comments);
+    //this._topRatedFilmsPresenter.get(updateFilm.id).init(updateFilm, this._comments);
+    //this._mostCommentedFilmsPresenter.get(updateFilm.id).init(updateFilm, this._comments);
   }
 
   _handlerButtonShowMoreClick () {
@@ -97,8 +101,8 @@ export default class Board {
     this._filmListContainer = new FilmListContainer();
     const mostCommentedFilms = this._boardFilms.slice().sort((prev, next) => next.comments.length - prev.comments.length);
 
-    render(this._filmsComponent, this._mostCommentedList, RenderPosition.BEFOREEND);
-    render(this._mostCommentedList,this._filmListContainer , RenderPosition.BEFOREEND);
+    render(this._filmsComponent, this._mostCommentedListComponent, RenderPosition.BEFOREEND);
+    render(this._mostCommentedListComponent,this._filmListContainer , RenderPosition.BEFOREEND);
 
     this._renderFilms(0, Math.min(mostCommentedFilms.length, MaxQuantityElement.FILMS_MOST_COMMENT), this._filmListContainer, mostCommentedFilms, this._mostCommentedFilmsPresenter);
   }

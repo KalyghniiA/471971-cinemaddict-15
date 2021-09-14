@@ -1,4 +1,3 @@
-import { ControlsType } from '../const';
 import {formatDate, getTimeFromMinutes } from '../utils/date';
 import AbstractView from './abstract';
 
@@ -60,9 +59,9 @@ const createFilmCardElement = (film) => {
     <p class="film-card__description">${description}</p>
     <a class="film-card__comments">${comments.length} comments</a>
     <div class="film-card__controls">
-      <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlist ? ACTIVE_CLASS : ''}" type="button" data-control-type="${ControlsType.WATCHLIST}">Add to watchlist</button>
-      <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${alreadyWatched ? ACTIVE_CLASS : ''}" type="button" data-control-type="${ControlsType.ALREADY_WATCHED}">Mark as watched</button>
-      <button class="film-card__controls-item film-card__controls-item--favorite ${favorite ? ACTIVE_CLASS : ''}" type="button" data-control-type="${ControlsType.FAVORITE}">Mark as favorite</button>
+      <button class="film-card__controls-item film-card__controls-item--add-to-watchlist ${watchlist ? ACTIVE_CLASS : ''}" type="button">Add to watchlist</button>
+      <button class="film-card__controls-item film-card__controls-item--mark-as-watched ${alreadyWatched ? ACTIVE_CLASS : ''}" type="button">Mark as watched</button>
+      <button class="film-card__controls-item film-card__controls-item--favorite ${favorite ? ACTIVE_CLASS : ''}" type="button">Mark as favorite</button>
     </div>
   </article>`
   );};

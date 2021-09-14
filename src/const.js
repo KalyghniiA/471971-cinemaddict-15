@@ -5,8 +5,8 @@ export const MaxQuantityElement = {
   FILMS_MOST_COMMENT: 2,
 };
 
-export const ControlsType = {
-  WATCHLIST: 'watchlist',
-  ALREADY_WATCHED: 'alreadyWatched',
-  FAVORITE: 'favorite',
+export const SortType = {
+  DEFAULT: 'default',
+  BY_DATE: 'by_date',
+  BY_RATING: 'by_rating',
 };
