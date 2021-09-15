@@ -40,3 +40,7 @@ export const getTimeFromMinutes = (mins) => {
   }
 
 };
+
+export  const sortByDate = (prev, next) => {
+    Date.parse(prev.filmInfo.release.date) - Date.parse(next.filmInfo.release.date);
+}
