@@ -63,14 +63,10 @@ export default class Board {
   _sortFilms (sortType) {
     switch (sortType) {
       case SortType.BY_DATE:
-        this._films.sort((prev, next) => {
-          return dayjs(prev.filmInfo.release.date).diff(dayjs(next.filmInfo.release.date));
-        });
+        this._films.sort((prev, next) => dayjs(prev.filmInfo.release.date).diff(dayjs(next.filmInfo.release.date)));
         break;
       case SortType.BY_RATING:
-        this._films.sort((prev, next) => {
-          return next.filmInfo.totalRating - prev.filmInfo.totalRating;
-        });
+        this._films.sort((prev, next) => next.filmInfo.totalRating - prev.filmInfo.totalRating);
         break;
       default:
         this._films = this._sourceFilms.slice();
