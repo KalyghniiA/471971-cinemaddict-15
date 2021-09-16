@@ -1,4 +1,5 @@
 
+import { nanoid } from 'nanoid';
 import { getRandomElementFromArray, getRandomFloat, getRandomIntInclusive } from '../utils/common';
 import { formatDate, generateDate, generateDateRelease, generateDateToComment} from '../utils/date';
 
@@ -107,11 +108,6 @@ const Runtime = {
   MAX: 200,
 };
 
-const Id = {
-  MIN: 0,
-  MAX: 100,
-};
-
 const createDescription = () => DESCRIPTION.slice(0, getRandomIntInclusive(1, DESCRIPTION.length - 1)).join(' ');
 
 export const createComment = () => ({
@@ -143,7 +139,7 @@ export const createMockData = (comments) => {
 
 
   return {
-    id: String(getRandomIntInclusive(Id.MIN, Id.MAX)),
+    id: nanoid(),
     comments: commentsId,
     filmInfo: {
       title: getRandomElementFromArray(FILMS),

@@ -190,6 +190,9 @@ export default class Popup extends AbstractView {
     this._film = film;
     this._comments = comments;
     this._closeClickHandler = this._closeClickHandler.bind(this);
+    this._controlAddToWatchlistClick = this._controlAddToWatchlistClick.bind(this);
+    this._controlMarkAsWatchedClick = this._controlMarkAsWatchedClick.bind(this);
+    this._controlFavoriteClick = this._controlFavoriteClick.bind(this);
   }
 
   getTemplate () {
@@ -200,8 +203,47 @@ export default class Popup extends AbstractView {
     this._callback.closeClick();
   }
 
+  _controlAddToWatchlistClick (evt) {
+    evt.preventDefault();
+    this._callback.controlAddToWatchListClick();
+  }
+
+  _controlMarkAsWatchedClick (evt) {
+    evt.preventDefault();
+    this._callback.controlMarkAsWatchedClick();
+  }
+
+  _controlFavoriteClick (evt) {
+    evt.preventDefault();
+    this._callback.controlFavoriteClick();
+  }
+
   setCloseClickHandler (callback) {
     this._callback.closeClick = callback;
     this.getElement().querySelector('.film-details__close-btn').addEventListener('click', this._closeClickHandler);
+  }
+
+  setControlAddToWatchListHandler (callback) {
+    this._callback.controlAddToWatchListClick = callback;
+    this
+      .getElement()
+      .querySelector('.film-details__control-button--watchlist')
+      .addEventListener('click', this._controlAddToWatchlistClick);
+  }
+
+  setControlMarkAsWatchedClick (callback) {
+    this._callback.controlMarkAsWatchedClick = callback;
+    this
+      .getElement()
+      .querySelector('.film-details__control-button--watched')
+      .addEventListener('click', this._controlMarkAsWatchedClick);
+  }
+
+  setControlFavoriteClick (callback) {
+    this._callback.controlFavoriteClick = callback;
+    this
+      .getElement()
+      .querySelector('.film-details__control-button--favorite')
+      .addEventListener('click', this._controlFavoriteClick);
   }
 }

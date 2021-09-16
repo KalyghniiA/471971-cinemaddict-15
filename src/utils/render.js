@@ -23,11 +23,12 @@ export const render = (container, child, place) => {
 };
 
 export const remove = (element) => {
-  if (element instanceof Abstract) {
-    element = element.getElement();
+  if (!(element instanceof Abstract)) {
+    throw new Error('Can remove only components');
   }
 
-  element.remove();
+  element.getElement().remove();
+  element.removeElement();
 };
 
 export const createElement = (template) => {
@@ -36,4 +37,22 @@ export const createElement = (template) => {
   newElement.innerHTML = template;
 
   return newElement.firstChild;
+};
+
+export const replace = (newChild, oldChild) => {
+  if (oldChild instanceof Abstract) {
+    oldChild = oldChild.getElement();
+  }
+
+  if (newChild instanceof Abstract) {
+    newChild = newChild.getElement();
+  }
+
+  const parent = oldChild.parentElement;
+
+  if (parent === null || oldChild === null || newChild === null) {
+    throw new Error('Can\'t replace unexisting elements');
+  }
+
+  parent.replaceChild(newChild, oldChild);
 };
