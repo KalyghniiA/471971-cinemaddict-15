@@ -3,7 +3,7 @@ import Abstract from './abstract';
 export default class Smart extends Abstract {
   constructor() {
     super();
-    this._dataFilm = {};
+    this._data = {};
   }
 
   updateData (update, justDataUpdating) {
@@ -12,9 +12,9 @@ export default class Smart extends Abstract {
     }
 
 
-    this._dataFilm = Object.assign(
+    this._data = Object.assign(
       {},
-      this._dataFilm,
+      this._data,
       update,
     );
 
@@ -33,7 +33,7 @@ export default class Smart extends Abstract {
 
 
     parent.replaceChild(newElement, prevElement);
-    newElement.scrollTop = this._dataFilm.scrollTop;
+    newElement.scrollTop = this._data.scrollTop;
     this.restoreHandlers();
   }
 

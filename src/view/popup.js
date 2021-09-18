@@ -194,8 +194,7 @@ const createPopupFilm = (film, commentsFilm) => {
 export default class Popup extends Smart {
   constructor (film, comments) {
     super();
-    //this._film = film;
-    this._dataFilm = Popup.parseFilmToData(film);
+    this._data = Popup.parseFilmToData(film);
     this._comments = comments;
 
     this._closeClickHandler = this._closeClickHandler.bind(this);
@@ -208,7 +207,7 @@ export default class Popup extends Smart {
   }
 
   getTemplate () {
-    return createPopupFilm(this._dataFilm, this._comments);
+    return createPopupFilm(this._data, this._comments);
   }
 
   _setInnerHandlers () {
