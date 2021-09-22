@@ -5,6 +5,8 @@ import StatisticView from './view/footer-statistics';
 import { render, RenderPosition } from './utils/render';
 import Board from './presenter/board';
 import { MaxQuantityElement } from './const';
+import FilmsModel from './model/films';
+import CommentsModel from './model/comments';
 
 const commentsData = createComments(MaxQuantityElement.COMMENT);
 const mockData = createMocksData(MaxQuantityElement.MOCK, commentsData);
@@ -17,6 +19,11 @@ const navigationInfo = {
 };
 
 
+const filmsModel = new FilmsModel();
+const commentsModel = new CommentsModel();
+filmsModel.setFilms(mockData);
+commentsModel.setComments(commentsData);
+
 const headerContainer = document.querySelector('.header');
 const mainContainer = document.querySelector('.main');
 const statisticsContainer = document.querySelector('.footer__statistics');
@@ -25,8 +32,8 @@ render(headerContainer, new ProfileView(), RenderPosition.BEFOREEND);
 render(mainContainer, new NavigationView(navigationInfo), RenderPosition.BEFOREEND);
 
 
-const films = new Board(mainContainer);
+const films = new Board(mainContainer, filmsModel, commentsModel);
 
-films.init(mockData, commentsData);
+films.init();
 
 render(statisticsContainer, new StatisticView(mockData), RenderPosition.BEFOREEND);
