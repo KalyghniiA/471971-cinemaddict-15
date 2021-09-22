@@ -177,7 +177,8 @@ export default class Board {
     this._topRatedFilmsPresenter.clear();
     this._mostCommentedFilmsPresenter.forEach((film) => film.destroy());
     this._mostCommentedFilmsPresenter.clear();
-    remove();
+    remove(this._sortComponent);
+    remove(this._filmsComponent);
   }
 
   _renderBoard () {
@@ -242,7 +243,7 @@ export default class Board {
         this._renderFilmList();
         break;
       case UpdateType.MAJOR:
-        this._clearFilms();
+        this._clearBoard();
 
     }
   }
