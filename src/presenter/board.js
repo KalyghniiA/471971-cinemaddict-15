@@ -1,4 +1,4 @@
-import {MaxQuantityElement, SortType} from '../const';
+import {MaxQuantityElement, SortType, UpdateType, UserAction} from '../const';
 import { remove, render, RenderPosition } from '../utils/render';
 import FilmList from '../view/film-list';
 import Films from '../view/films';
@@ -16,16 +16,20 @@ const FILMS_QUANTITY_PER_STEP = 5;
 export default class Board {
   constructor (moviesContainer, filmsModel, commentsModel) {
     this._mainContainer = moviesContainer;
-    this._sortComponent = new Sort();
+
     this._noFilmComponent = new NoFilm();
     this._filmListComponent = new FilmList();
     this._topRatedListComponent = new TopRatedList();
     this._mostCommentedListComponent = new MostCommentedList();
     this._filmsComponent = new Films();
-    this._buttonShowMoreComponent = new ButtonShowMore();
+
 
     this._filmsModel = filmsModel;
     this._commentsModel = commentsModel;
+
+
+    this._sortComponent = null;
+    this._buttonShowMoreComponent = null;
 
     this._renderedFilmCount = FILMS_QUANTITY_PER_STEP;
     this._mainFilmsPresenter = new Map();
@@ -75,25 +79,9 @@ export default class Board {
 
     this._currentSortType = sortType;
     this._clearFilms();
-    this._renderFilmList(this._getFilms());
+    this._renderFilmList();
   }
 
-
-  _handlerFilmChange (updateFilm) {
-
-    const mainPresenter = this._mainFilmsPresenter.get(updateFilm.id);
-    if (mainPresenter) {
-      mainPresenter.init(updateFilm, this._getComments());
-    }
-    const topRatedPresenter = this._topRatedFilmsPresenter.get(updateFilm.id);
-    if (topRatedPresenter) {
-      topRatedPresenter.init(updateFilm, this._getComments());
-    }
-    const mostCommentedPresenter = this._mostCommentedFilmsPresenter.get(updateFilm.id);
-    if (mostCommentedPresenter) {
-      mostCommentedPresenter.init(updateFilm, this._getComments());
-    }
-  }
 
   _handlerButtonShowMoreClick () {
     const filmsCount = this._getFilms().length;
@@ -182,6 +170,16 @@ export default class Board {
 
   }
 
+  _clearBoard () {
+    this._mainFilmsPresenter.forEach((film) => film.destroy());
+    this._mainFilmsPresenter.clear();
+    this._topRatedFilmsPresenter.forEach((film) => film.destroy());
+    this._topRatedFilmsPresenter.clear();
+    this._mostCommentedFilmsPresenter.forEach((film) => film.destroy());
+    this._mostCommentedFilmsPresenter.clear();
+    remove();
+  }
+
   _renderBoard () {
     const filmsCount = this._getFilms().length;
     if (filmsCount === 0) {
@@ -203,6 +201,50 @@ export default class Board {
     this._mostCommentedFilmsPresenter.forEach((presenter) => {
       presenter.resetView();
     });
+  }
+
+  _redrawingCard (data) {
+    const mainPresenter = this._mainFilmsPresenter.get(data.id);
+    if (mainPresenter) {
+      mainPresenter.init(data, this._getComments());
+    }
+    const topRatedPresenter = this._topRatedFilmsPresenter.get(data.id);
+    if (topRatedPresenter) {
+      topRatedPresenter.init(data, this._getComments());
+    }
+    const mostCommentedPresenter = this._mostCommentedFilmsPresenter.get(data.id);
+    if (mostCommentedPresenter) {
+      mostCommentedPresenter.init(data, this._getComments());
+    }
+  }
+
+  _handleViewAction (actionType, updateType, update) {
+    switch (actionType) {
+      case UserAction.UPDATE_TASK:
+        this._filmsModel.updateFilms(updateType, update);
+        break;
+      case UserAction.ADD_COMMENT:
+        this._commentsModel.addComments(updateType, update);
+        break;
+      case UserAction.DELETE_COMMENT:
+        this._commentsModel.deleteComments(updateType, update);
+        break;
+    }
+  }
+
+  _handleModelEvent (updateType, data) {
+    switch (updateType) {
+      case UpdateType.PATCH:
+        this._redrawingCard(data);
+        break;
+      case UpdateType.MINOR:
+        this._clearFilms();
+        this._renderFilmList();
+        break;
+      case UpdateType.MAJOR:
+        this._clearFilms();
+
+    }
   }
 
 }
