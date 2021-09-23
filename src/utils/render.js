@@ -3,9 +3,10 @@ import Abstract from '../view/abstract';
 export const RenderPosition = {
   AFTERBEGIN: 'afterbegin',
   BEFOREEND: 'beforeend',
+  INSERT_BEFORE: 'insert_before',
 };
 
-export const render = (container, child, place) => {
+export const render = (container, child, place, referenceChild = null) => {
   if (container instanceof Abstract) {
     container = container.getElement();
   }
@@ -19,6 +20,9 @@ export const render = (container, child, place) => {
       break;
     case RenderPosition.BEFOREEND:
       container.append(child);
+      break;
+    case RenderPosition.INSERT_BEFORE:
+      container.insertBefore(child, referenceChild);
   }
 };
 

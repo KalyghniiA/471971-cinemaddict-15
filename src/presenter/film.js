@@ -1,6 +1,7 @@
 import { remove, render, RenderPosition, replace } from '../utils/render';
 import FilmCard from '../view/film-card';
 import Popup from '../view/popup';
+import {UpdateType, UserAction} from '../const';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -109,6 +110,8 @@ export default class Film {
 
   _handleAddToWatchListClick () {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -127,6 +130,8 @@ export default class Film {
 
   _handleMarkAsWatchedClick () {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,
@@ -145,6 +150,8 @@ export default class Film {
 
   _handleFavoriteClick () {
     this._changeData(
+      UserAction.UPDATE_FILM,
+      UpdateType.PATCH,
       Object.assign(
         {},
         this._film,

@@ -1,6 +1,6 @@
 export const MaxQuantityElement = {
   COMMENT: 5,
-  MOCK: 20,
+  MOCK: 30,
   FILMS_TOP_RATED: 2,
   FILMS_MOST_COMMENT: 2,
 };
@@ -12,7 +12,7 @@ export const SortType = {
 };
 
 export const UserAction = {
-  UPDATE_TASK: 'UPDATE_TASK',
+  UPDATE_FILM: 'UPDATE_FILM',
   ADD_COMMENT: 'ADD_COMMENT',
   DELETE_COMMENT: 'DELETE_COMMENT',
 };
@@ -23,3 +23,9 @@ export const UpdateType = {
   MAJOR: 'MAJOR',
 };
 
+export const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+};
